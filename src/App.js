@@ -1,26 +1,50 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import data from "./data1.json";
+import Products from './components/Products';
+import Filter from './components/Filter';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component{
+  constructor(){
+    super();
+    this.state={
+      products:data.products,
+      search:"",
+    };
+  }
+  filterProducts = (e) =>{
+    console.log(e.target.value);
+    
+    this.setState({
+      search: e.target.value,
+      products: data.products.filter(
+        (product) => 
+        product.category.indexOf(e.target.value)!==-1
+         ),
+    })
+  }
+    render(){
+      return(
+      <div className="grid-container">
+        <header>
+         <div className="title-incresco"> Incresco Shopping </div> 
+        </header>
+        <main>
+           <div className="content">
+           <Filter count={this.state.products.length}
+           filterProducts={this.filterProducts}
+           
+           ></Filter>
+
+               <Products products={this.state.products}></Products>
+           </div>
+        </main>
+        <footer>
+            All rights are reserved by incresco
+        </footer>
+      </div>
+    );
+ }
+ 
 }
 
 export default App;
